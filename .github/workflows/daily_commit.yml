@@ -3,7 +3,7 @@ name: Daily Commit Update
 on:
   schedule:
     - cron: '0 9 * * *'  # daily at 09:00 UTC
-  workflow_dispatch:       # manual trigger
+  workflow_dispatch:      # allows manual run
 
 jobs:
   daily-commit:
@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          persist-credentials: false  # we will use token manually
+          persist-credentials: false  # disable default token
 
       - name: Set Git user
         run: |
