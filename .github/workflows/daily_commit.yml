@@ -1,6 +1,5 @@
 name: Daily Commit Update
 
-# Run once per day at 09:00 UTC, and allow manual triggers
 on:
   schedule:
     - cron: '0 9 * * *'  # daily at 09:00 UTC
@@ -12,6 +11,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false  # we will use token manually
 
       - name: Set Git user
         run: |
@@ -23,6 +24,4 @@ jobs:
           echo "Daily commit on $(date)" >> daily_commit.txt
           git add daily_commit.txt
           git commit -m "Daily automated commit $(date)" || echo "No changes to commit"
-          git push origin HEAD:main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/23f2000416/workflow.git HEAD:main
